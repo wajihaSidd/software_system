@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>NexGen Solutions - Clients</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0f0f0f;
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+            margin: 0;
+            padding: 0;
+            color: #eaeaea;
+        }
+
+        .navbar {
+            background-color: #1a1a1a;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+        }
+
+        .navbar-title {
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            padding: 10px;
+        }
+
+        .navbar-links {
+            display: flex;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            text-align: center;
+            transition: background-color 0.3s;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .navbar a:hover {
+            background-color: #0f0f0f;
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png'); 
+        }
+
+        .section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .btn-primary:hover {
+            background-color: #357ac9;
+        }
+
+        .btn-success {
+            background-color: #2ecc71;
+        }
+
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid #4a90e2;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        th {
+            background-color: rgba(74, 144, 226, 0.2);
+            font-family: 'Orbitron', sans-serif;
+            color: #4a90e2;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+        }
+        
+        .modal-content {
+            background-color: #1a1a1a;
+            margin: 10% auto;
+            padding: 25px;
+            border: 1px solid #4a90e2;
+            width: 80%;
+            max-width: 800px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4);
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #fff;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            display: inline-block;
+            width: 48%;
+            vertical-align: top;
+            box-sizing: border-box;
+            padding: 0 10px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #4a90e2;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #222;
+            color: #eee;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .modal-title {
+            color: #4a90e2;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+            font-size: 24px;
+            border-bottom: 1px solid #4a90e2;
+            padding-bottom: 10px;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #4a90e2;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Status messages */
+        .status-message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+
+        .success {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+
+        .error {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+
+        .form-actions {
+            clear: both;
+            padding-top: 20px;
+            text-align: right;
+        }
+
+        /* Chart container */
+        .chart-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: rgba(26, 26, 26, 0.8);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .chart-title {
+            color: #4a90e2;
+            font-family: 'Orbitron', sans-serif;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .data-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .data-card {
+            flex: 1;
+            min-width: 300px;
+            margin: 10px;
+            background-color: rgba(26, 26, 26, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        .data-card h3 {
+            color: #4a90e2;
+            font-family: 'Orbitron', sans-serif;
+            margin-top: 0;
+            border-bottom: 1px solid #4a90e2;
+            padding-bottom: 10px;
+        }
+         .section {
+    max-width: 1200px;
+    margin: 20px auto; /* This already centers it horizontally */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This centers child elements (like the table) */
+}
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-title">NexGen Solutions - Clients</div>
+        <div class="navbar-links">
+            <a href="dashboard.html" id="dashboardBtn">Dashboard</a>
+            <a href="#" id="logoutBtn">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Section -->
+    <div class="section">
+        <!-- Status Messages -->
+        <div id="statusMessage" class="status-message"></div>
+        
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner"></div>
+
+        <!-- Insert Client Button -->
+        <button id="insertClientBtn" class="btn-primary btn-success" style="margin-bottom: 20px;">
+            Insert Client
+        </button>
+
+     
+
+        <!-- Clients Table -->
+        <table id="clientsTable">
+            <thead>
+                <tr>
+                    <th>Client ID</th>
+                    <th>Company Name</th>
+                    <th>Contact Person</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Industry</th>
+                    <th>Tax Number</th>
+                    <th>Payment Terms</th>
+                    <th>Client Since</th>
+                    <th>Status</th>
+                    <th>Account Manager ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Will be populated by JavaScript -->
+            </tbody>
+        </table>
+
+        <!-- Insert Client Modal -->
+        <div id="clientModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modal-title">Insert Client</div>
+                <form id="clientForm">
+                    <div class="form-group">
+                        <label for="companyname">Company Name:</label>
+                        <input type="text" id="companyname" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactperson">Contact Person:</label>
+                        <input type="text" id="contactperson" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="text" id="phone" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Address:</label>
+                        <input type="text" id="address" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="industry">Industry:</label>
+                        <input type="text" id="industry" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taxnumber">Tax Number:</label>
+                        <input type="text" id="taxnumber" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="paymentterms">Payment Terms:</label>
+                        <select id="paymentterms" required>
+                            <option value="">Select Payment Terms</option>
+                            <option value="Net 15">Net 15</option>
+                            <option value="Net 30">Net 30</option>
+                            <option value="Net 60">Net 60</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="clientsince">Client Since:</label>
+                        <input type="date" id="clientsince" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select id="status" required>
+                            <option value="">Select Status</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Suspended">Suspended</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="accountmanagerid">Account Manager ID:</label>
+                        <input type="number" id="accountmanagerid" required />
+                    </div>
+
+                    <!-- Form Buttons -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Submit</button>
+                        <button type="button" id="cancelFormBtn" class="btn-primary btn-danger">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+       <!-- Data Visualization Section -->
+        <div class="data-section">
+            <div class="data-card">
+                <h3>Client Status Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+    <!-- JavaScript Files -->
+    <script src="JS/clients.js"></script>
+    <script src="JS/charts.js"></script>
+</body>
+</html>

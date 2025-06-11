@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>NexGen Solutions - Teams</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0f0f0f;
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png');
+            margin: 0;
+            padding: 0;
+            color: #eaeaea;
+        }
+
+        .navbar {
+            background-color: #1a1a1a;
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+        }
+
+        .navbar-title {
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
+            padding: 10px;
+        }
+
+        .navbar-links {
+            display: flex;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px;
+            text-align: center;
+            transition: background-color 0.3s;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .navbar a:hover {
+            background-color: #0f0f0f;
+            background-image: url('https://www.transparenttextures.com/patterns/cubes.png'); 
+        }
+
+        .section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        /* Button Styles */
+        .btn-primary {
+            background-color: #4a90e2;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .btn-primary:hover {
+            background-color: #357ac9;
+        }
+
+        .btn-success {
+            background-color: #2ecc71;
+        }
+
+        .btn-success:hover {
+            background-color: #27ae60;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid #4a90e2;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        th {
+            background-color: rgba(74, 144, 226, 0.2);
+            font-family: 'Orbitron', sans-serif;
+            color: #4a90e2;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.8);
+        }
+        
+        .modal-content {
+            background-color: #1a1a1a;
+            margin: 10% auto;
+            padding: 25px;
+            border: 1px solid #4a90e2;
+            width: 60%;
+            max-width: 600px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.4);
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #fff;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #4a90e2;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        input[type="date"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: #222;
+            color: #eee;
+            font-family: 'Roboto', sans-serif;
+        }
+        
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .modal-title {
+            color: #4a90e2;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 20px;
+            font-size: 24px;
+            border-bottom: 1px solid #4a90e2;
+            padding-bottom: 10px;
+        }
+
+        /* Loading spinner */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid #4a90e2;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Status messages */
+        .status-message {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+
+        .success {
+            background-color: rgba(46, 204, 113, 0.2);
+            color: #2ecc71;
+            border: 1px solid #2ecc71;
+        }
+
+        .error {
+            background-color: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid #e74c3c;
+        }
+                        .section {
+    max-width: 1200px;
+    margin: 20px auto; /* This already centers it horizontally */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This centers child elements (like the table) */
+}
+    </style>
+</head>
+<body>
+
+ <!-- Navbar -->
+<div class="navbar">
+    <div class="navbar-title">NexGen Solutions - Teams</div>
+    <div class="navbar-links">
+        <a href="index.html" id="dashboardBtn">Dashboard</a>
+        <a href="#" id="logoutBtn">Logout</a>
+    </div>
+</div>
+
+    <!-- Main Section -->
+    <div class="section">
+        <!-- Status Messages -->
+        <div id="statusMessage" class="status-message"></div>
+        
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="spinner"></div>
+
+        <!-- Insert Team Button -->
+        <button id="insertTeamBtn" class="btn-primary btn-success" style="margin-bottom: 20px;">
+            Insert Team
+        </button>
+
+        <!-- Teams Table -->
+        <table id="teamsTable">
+            <thead>
+                <tr>
+                    <th>Team ID</th>
+                    <th>Team Name</th>
+                    <th>Department ID</th>
+                    <th>Team Lead ID</th>
+                    <th>Description</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Will be populated by JavaScript -->
+            </tbody>
+        </table>
+
+        <!-- Insert Team Modal -->
+        <div id="teamModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <div class="modal-title">Insert Team</div>
+                <form id="teamForm">
+                    <div class="form-group">
+                        <label for="teamname">Team Name:</label>
+                        <input type="text" id="teamname" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="departmentid">Department ID:</label>
+                        <input type="number" id="departmentid" required />
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="teamleadid">Team Lead ID:</label>
+                        <input type="number" id="teamleadid" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea id="description" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="createdat">Created At:</label>
+                        <input type="date" id="createdat" required />
+                    </div>
+
+                    <!-- Form Buttons -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn-primary">Submit</button>
+                        <button type="button" id="cancelFormBtn" class="btn-primary btn-danger">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript File -->
+    <script src="JS/teams.js"></script>
+</body>
+</html>
